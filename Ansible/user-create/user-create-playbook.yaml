@@ -1,0 +1,28 @@
+---
+
+- name: Create Non root users
+
+  hosts: servers  # Use the group name from your inventory
+
+  become: yes  # This allows Ansible to execute commands with sudo
+
+
+
+  tasks:
+
+    - name: Copy Bash script to remote VM
+
+      copy:
+
+        src: /home/Nezie/Ansible/user-create/user-create.sh  # Local path to your Bash script
+
+        dest: /tmp/user-create.sh  # Remote path where the script will be copied
+
+        mode: '0755'  # Set execute permissions on the script
+
+
+
+    - name: Execute Bash script
+
+      command: /tmp/user-create.sh
+

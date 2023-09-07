@@ -1,0 +1,24 @@
+---
+- name: Install Applications
+  hosts: servers  # Use the group name from your inventory
+  become: yes  # This allows Ansible to execute commands with sudo
+  tasks:
+    - name: Copy Bash script to remote VM
+      copy:
+        src: /home/Nezie/Ansible/apps-installation/apps-installation-new.sh  # Local path to your Bash script
+        dest: /tmp/apps-installation.sh  # Remote path where the script will be copied
+        mode: '0755'  # Set execute permissions on the script
+    - name: Execute Bash script asynchronously
+      command: /tmp/apps-installation.sh
+      async: 1800  # Set the timeout in seconds (e.g., 1800 seconds = 30 minutes)
+      poll: 0  # Start polling immediately
+      register: script_result
+    - name: Wait for the script to complete
+      async_status:
+        jid: "{{ script_result.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30  # Number of polling retries (adjust as needed)
+      delay: 30   # Delay in seconds between polling attempts (adjust as needed)
+
+

@@ -1,0 +1,18 @@
+---
+- name: Configure GDM and Change GECOS Field
+  hosts: servers  # Specify the target host(s) where you want to make these changes
+  become: yes
+  tasks:
+    - name: Set Default User for GDM
+      lineinfile:
+        path: /etc/gdm3/custom.conf
+        regexp: '^AutomaticLoginEnable='
+        line: 'AutomaticLoginEnable=true'
+
+    - name: Change GECOS field using chfn
+      command: sudo chfn -f "Nezie" Nezie   #Replace default Ubuntu username on GUI to default system username (Nezie). If your username is John, your command will look like this sudo chfn -f "John" John
+
+    - name: Restart GDM
+      service:
+        name: gdm
+        state: restarted

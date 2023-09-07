@@ -1,0 +1,20 @@
+location             = "East US 2"
+resource_group_name  = "Terraform"
+vm_count             = "2"
+prefix               = "Project-VM"
+admin_username       = "Nezie"
+admin_password       = "XXXXXXXXXXXXXXXX"
+vm_size              = "Standard_B2ms"
+virtual_network_name = "Project-VM-VNET"
+subnet_name          = "Project-VM-Subnet"
+vnet_address_space   = ["10.2.0.0/16"]
+subnet_address_space = ["10.2.0.0/24"]
+zones                = "1"
+storage_account_name = "projectsa"
+os = {
+  publisher = "Canonical"
+  offer     = "0001-com-ubuntu-server-jammy"
+  sku       = "22_04-lts-gen2"
+  version   = "latest"
+}
+nsg_priority = "109"

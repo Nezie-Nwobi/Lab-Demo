@@ -1,0 +1,28 @@
+---
+
+- name: Configure VMs
+
+  hosts: servers  # Use the group name from your inventory
+
+  become: yes  # This allows Ansible to execute commands with sudo
+
+
+
+  tasks:
+
+    - name: Copy Bash script to remote VM
+
+      copy:
+
+        src: /home/Nezie/Ansible/custom-vmconfig/custom-vmconfig.sh  # Local path to your Bash script
+
+        dest: /tmp/custom-vmconfig.sh  # Remote path where the script will be copied
+
+        mode: '0755'  # Set execute permissions on the script
+
+
+
+    - name: Execute Bash script
+
+      command: /tmp/custom-vmconfig.sh
+
